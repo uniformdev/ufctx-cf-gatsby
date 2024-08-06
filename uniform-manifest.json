@@ -1,0 +1,10 @@
+{
+  "project": {
+    "pz": {},
+    "test": {
+      "homepageHeroTest": {},
+      "homepageLogoTest": {},
+      "homepageProductListTest": {}
+    }
+  }
+}
