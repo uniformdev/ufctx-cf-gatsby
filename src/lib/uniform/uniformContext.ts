@@ -6,7 +6,7 @@ import {
     enableDebugConsoleLogDrain,
   } from "@uniformdev/context";
   
-  import manifest from "../../uniform-manifest.json";
+  import manifest from "./uniform-manifest.json";
   
   export function createUniformContext() {
     const plugins = [

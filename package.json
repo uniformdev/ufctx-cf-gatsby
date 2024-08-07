@@ -5,25 +5,28 @@
     "node": ">=18.0.0"
   },
   "scripts": {
-    "uniform:download-manifest": "uniform context manifest download --output ./uniform-manifest.json",
+    "uniform:download-manifest": "uniform context manifest download --output src/lib/uniform/uniform-manifest.json",
     "start": "gatsby develop",
-    "develop": "run-s uniform:download-manifest develop-gatsby",
+    "develop": "run-s copy:deno uniform:download-manifest develop-gatsby",
     "develop-gatsby": "gatsby develop",
-    "build": "run-s uniform:download-manifest build-gatsby",
+    "build": "run-s copy:deno uniform:download-manifest build-gatsby",
     "build-gatsby": "gatsby build",
     "serve": "gatsby serve",
     "clean": "gatsby clean",
     "gatsby-provision": "gatsby-provision-contentful --contentful-data-path='./scripts/data.json' --space-id=$CONTENTFUL_SPACE_ID --management-token=$CONTENTFUL_MANAGEMENT_TOKEN",
     "setup": "node ./scripts/setup.js",
-    "export-content": "contentful space export --space-id=$SPACE_ID --management-token=$MANAGEMENT_TOKEN --export-dir=scripts --content-file=data.json"
+    "export-content": "contentful space export --space-id=$SPACE_ID --management-token=$MANAGEMENT_TOKEN --export-dir=scripts --content-file=data.json",
+    "copy:deno": "shx cp node_modules/@uniformdev/context-edge-netlify/dist/index.deno.js src/lib/uniform",
+    "postinstall": "run-s copy:deno"
   },
   "dependencies": {
-    "@contentful/rich-text-html-renderer": "^15.11.1",
-    "@fontsource/dm-mono": "^4.5.9",
-    "@fontsource/dm-sans": "^4.5.8",
-    "@uniformdev/cli": "^19.176.0",
+    "@contentful/rich-text-html-renderer": "^15.15.1",
+    "@fontsource/dm-mono": "^4.5.10",
+    "@fontsource/dm-sans": "^4.5.9",
+    "@uniformdev/cli": "19.176.2-alpha.0",
     "@uniformdev/context": "19.176.2-alpha.0",
     "@uniformdev/context-edge": "19.176.2-alpha.0",
+    "@uniformdev/context-edge-netlify": "19.176.2-alpha.0",
     "@uniformdev/context-react": "19.176.2-alpha.0",
     "@vanilla-extract/babel-plugin": "^1.2.0",
     "@vanilla-extract/css": "^1.9.0",
@@ -42,7 +45,7 @@
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-feather": "^2.0.9",
-    "sharp": "^0.30.5"
+    "sharp": "^0.32.6"
   },
   "devDependencies": {
     "chalk": "4",
@@ -53,6 +56,7 @@
     "inquirer": "^8.2.0",
     "lint-staged": "^12.3.5",
     "prettier": "2.5.1",
+    "shx": "^0.3.4",
     "typescript": "^4.6.2",
     "yargs-parser": "^21.0.0"
   }

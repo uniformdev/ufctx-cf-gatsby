@@ -5,7 +5,7 @@ import * as sections from "../components/sections"
 import Fallback from "../components/fallback"
 import SEOHead from "../components/head"
 import { UniformContext } from "@uniformdev/context-react"
-import { createUniformContext } from "../lib/uniformContext"
+import { createUniformContext } from "../lib/uniform/uniformContext"
 
 interface HomepageProps {
   data: {
