@@ -6,6 +6,7 @@ import Fallback from "../components/fallback"
 import SEOHead from "../components/head"
 import { UniformContext } from "@uniformdev/context-react"
 import { createUniformContext } from "../lib/uniform/uniformContext"
+import * as amplitude from "@amplitude/analytics-browser"
 
 interface HomepageProps {
   data: {
@@ -26,6 +27,17 @@ export default function Homepage(props: HomepageProps) {
 
   const outputType =
     process.env.NODE_ENV === "development" ? "standard" : "edge"
+
+  // Initialize Amplitude
+  React.useEffect(() => {
+    amplitude.init("d7d8491923b09b2b13c10db140be0766")
+
+    // Log the page view event
+    amplitude.logEvent("Page Viewed", {
+      page: homepage.title,
+      path: window.location.pathname,
+    })
+  }, [homepage.title])
 
   return (
     <UniformContext

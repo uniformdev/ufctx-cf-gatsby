@@ -20,6 +20,7 @@
     "postinstall": "run-s copy:deno"
   },
   "dependencies": {
+    "@amplitude/analytics-browser": "^2.10.0",
     "@contentful/rich-text-html-renderer": "^15.15.1",
     "@fontsource/dm-mono": "^4.5.10",
     "@fontsource/dm-sans": "^4.5.9",
