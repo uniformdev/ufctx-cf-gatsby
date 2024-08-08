@@ -6,7 +6,7 @@ export const enableAmplitudeAnalytics = (): ContextPlugin => {
     init: (context) => {
       // Handle emitting test results to Amplitude
       const onTestResult = (result: TestEvent) => {
-        amplitude.logEvent("Test Result", {
+        amplitude.logEvent("[Uniform] Test Result", {
           name: result.name,
           variantId: result.variantId ?? "No Variant",
           variantAssigned: result.variantAssigned,

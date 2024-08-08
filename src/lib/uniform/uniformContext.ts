@@ -7,7 +7,7 @@ import {
 } from "@uniformdev/context"
 
 import manifest from "./uniform-manifest.json"
-import { enableAmplitudeAnalytics } from "../amplitude/amplitudeContext"
+import { enableAmplitudeAnalytics } from "../amplitude/amplitudeContextPlugin"
 
 export function createUniformContext() {
   const plugins = [

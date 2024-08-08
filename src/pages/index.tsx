@@ -30,12 +30,13 @@ export default function Homepage(props: HomepageProps) {
 
   // Initialize Amplitude
   React.useEffect(() => {
-    amplitude.init("d7d8491923b09b2b13c10db140be0766")
+    const amplitudeApiKey = process.env.GATSBY_AMPLITUDE_API_KEY
+    if (!amplitudeApiKey) {
+      return
+    }
 
-    // Log the page view event
-    amplitude.logEvent("Page Viewed", {
-      page: homepage.title,
-      path: window.location.pathname,
+    amplitude.init(amplitudeApiKey, {
+      autocapture: true,
     })
   }, [homepage.title])
 
