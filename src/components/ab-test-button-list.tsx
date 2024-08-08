@@ -24,7 +24,7 @@ export function ABTestButtonList({ variants }: ABTestButtonListProps) {
     <UniformTest
       name="homepageButtonTest"
       component={(variant) => (
-        <ButtonList links={variant.links} reversed invertColors />
+        <ButtonList links={variant.links} reversed={variant.reversed} invertColors={variant.invertColors} />
       )}
       variations={testVariants}
     />
