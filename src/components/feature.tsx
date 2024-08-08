@@ -34,10 +34,7 @@ export default function Feature(props: FeatureDataProps & FeatureProps) {
       identifier: "variantA",
       distribution: 50,
       buttonListProps: {
-        links: [
-          { id: "1", url: "/page-a", href: "/page-a", text: "Learn More A" },
-          { id: "2", url: "/contact-a", href: "/contact-a", text: "Contact Us A" },
-        ],
+        links: props.links,
         invertColors: false,
       },
     },
@@ -45,10 +42,7 @@ export default function Feature(props: FeatureDataProps & FeatureProps) {
       identifier: "variantB",
       distribution: 50,
       buttonListProps: {
-        links: [
-          { id: "3", url: "/page-b", href: "/page-b", text: "Learn More B" },
-          { id: "4", url: "/contact-b", href: "/contact-b", text: "Contact Us B" },
-        ],
+        links: props.links,
         invertColors: true,
       },
     },
