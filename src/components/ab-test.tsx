@@ -25,10 +25,10 @@ export interface ABTestProps {
 export default function ABTest(props: ABTestProps) {
   const testVariants = useMemo(() => {
     return props.variants.map((variant) => ({
+      ...variant.component,
       id: variant.identifier,
       testDistribution: variant.distribution,
       type: variant.sectionType,
-      ...variant.component,
     }))
   }, [props.variants])
 
