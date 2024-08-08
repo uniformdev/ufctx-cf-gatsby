@@ -9,10 +9,10 @@ import {
   Subhead,
   Kicker,
   Text,
-  ButtonList,
   HomepageImage,
   HomepageLink,
 } from "./ui"
+import { ABTestButtonList } from "./ab-test-button-list"
 
 export interface FeatureDataProps {
   id: string
@@ -28,6 +28,32 @@ interface FeatureProps {
 }
 
 export default function Feature(props: FeatureDataProps & FeatureProps) {
+  // Example of coded button variants for A/B testing, can be mixed with content coming from Contentful
+  const buttonVariants = [
+    {
+      identifier: "variantA",
+      distribution: 50,
+      buttonListProps: {
+        links: [
+          { id: "1", url: "/page-a", href: "/page-a", text: "Learn More A" },
+          { id: "2", url: "/contact-a", href: "/contact-a", text: "Contact Us A" },
+        ],
+        invertColors: false,
+      },
+    },
+    {
+      identifier: "variantB",
+      distribution: 50,
+      buttonListProps: {
+        links: [
+          { id: "3", url: "/page-b", href: "/page-b", text: "Learn More B" },
+          { id: "4", url: "/contact-b", href: "/contact-b", text: "Contact Us B" },
+        ],
+        invertColors: true,
+      },
+    },
+  ]
+
   return (
     <Section padding={4} background="muted">
       <Container>
@@ -46,7 +72,7 @@ export default function Feature(props: FeatureDataProps & FeatureProps) {
               {props.heading}
             </Subhead>
             <Text variant="lead">{props.text}</Text>
-            <ButtonList links={props.links} />
+            <ABTestButtonList variants={buttonVariants} />
           </Box>
         </Flex>
       </Container>

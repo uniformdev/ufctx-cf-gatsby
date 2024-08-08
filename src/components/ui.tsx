@@ -260,22 +260,25 @@ export function Button({
   return <Base as={Link} cx={[styles.buttons[variant]]} {...props} />
 }
 
-interface ButtonListProps extends BaseProps {
+export interface ButtonListProps extends BaseProps {
   links: HomepageLink[]
   variant?: styles.FlexVariants
   reversed?: boolean
+  invertColors?: boolean
 }
 
 export function ButtonList({
   links = [],
   reversed = false,
+  invertColors = false,
   ...props
 }: ButtonListProps) {
   const getVariant = (i): styles.ButtonVariants => {
     if (reversed) {
       return i === 0 ? "reversed" : "linkReversed"
     }
-    return i === 0 ? "primary" : "link"
+
+    return invertColors ? (i === 0 ? "primary" : "link") : i === 0 ? "link" : "primary"
   }
   return (
     <FlexList marginY={4} {...props}>
