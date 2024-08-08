@@ -4,6 +4,11 @@ import * as amplitude from "@amplitude/analytics-browser"
 export const enableAmplitudeAnalytics = (): ContextPlugin => {
   return {
     init: (context) => {
+
+      if (typeof window === 'undefined') {
+        return () => {};
+      }
+      
       // Handle emitting test results to Amplitude
       const onTestResult = (result: TestEvent) => {
         amplitude.logEvent("[Uniform] Test Result", {
