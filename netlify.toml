@@ -1,5 +1,5 @@
 [build]
-  command = "gatsby build"
+  command = "pnpm build"
   publish = "public"
 
 [[edge_functions]]
