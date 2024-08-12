@@ -4,8 +4,6 @@ import Layout from "../components/layout"
 import * as sections from "../components/sections"
 import Fallback from "../components/fallback"
 import SEOHead from "../components/head"
-import { UniformContext } from "@uniformdev/context-react"
-import { createUniformContext } from "../lib/uniform/uniformContext"
 import * as amplitude from "@amplitude/analytics-browser"
 
 interface HomepageProps {
@@ -20,14 +18,8 @@ interface HomepageProps {
   }
 }
 
-const clientContext = createUniformContext()
-
 export default function Homepage(props: HomepageProps) {
   const { homepage } = props.data
-
-  const outputType =
-    process.env.NODE_ENV === "development" ? "standard" : "edge"
-
   // Initialize Amplitude
   React.useEffect(() => {
     const amplitudeApiKey = process.env.GATSBY_AMPLITUDE_API_KEY
@@ -41,19 +33,13 @@ export default function Homepage(props: HomepageProps) {
   }, [homepage.title])
 
   return (
-    <UniformContext
-      context={clientContext}
-      outputType={outputType}
-      includeTransferState="always"
-    >
-      <Layout>
-        {homepage.blocks.map((block) => {
-          const { id, blocktype, ...componentProps } = block
-          const Component = sections[blocktype] || Fallback
-          return <Component key={id} {...(componentProps as any)} />
-        })}
-      </Layout>
-    </UniformContext>
+    <Layout>
+      {homepage.blocks.map((block) => {
+        const { id, blocktype, ...componentProps } = block
+        const Component = sections[blocktype] || Fallback
+        return <Component key={id} {...(componentProps as any)} />
+      })}
+    </Layout>
   )
 }
 export const Head = (props: HomepageProps) => {

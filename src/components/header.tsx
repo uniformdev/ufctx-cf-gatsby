@@ -1,6 +1,12 @@
 import * as React from "react"
 import { graphql, useStaticQuery } from "gatsby"
 import { Menu, X } from "react-feather"
+import { Test as UniformTest } from "@uniformdev/context-react"
+import { UniformContext } from "@uniformdev/context-react"
+import { createUniformContext } from "../lib/uniform/uniformContext"
+
+import * as styles from "./ui.css"
+
 import {
   Container,
   Flex,
@@ -98,19 +104,117 @@ export default function Header() {
     }
   }, [isOpen])
 
+  const testVariants = [
+    {
+      id: "primary",
+      props: {
+        href: cta.href,
+        text: cta.text,
+        variant: "primary" as styles.ButtonVariants,
+      },
+    },
+    {
+      id: "reversed",
+      props: {
+        href: cta.href,
+        text: cta.text,
+        variant: "reversed" as styles.ButtonVariants,
+      },
+    },
+  ]
+
   return (
-    <header>
-      <Container className={desktopHeaderNavWrapper}>
-        <Space size={2} />
-        <Flex variant="spaceBetween">
-          <NavLink to="/">
-            <VisuallyHidden>Home</VisuallyHidden>
-            <BrandLogo />
-          </NavLink>
-          <nav>
-            <FlexList gap={4}>
-              {navItems &&
-                navItems.map((navItem) => (
+    <UniformContext
+      context={createUniformContext()}
+      outputType={process.env.NODE_ENV === "development" ? "standard" : "edge"}
+      includeTransferState="always"
+    >
+      <header>
+        <Container className={desktopHeaderNavWrapper}>
+          <Space size={2} />
+          <Flex variant="spaceBetween">
+            <NavLink to="/">
+              <VisuallyHidden>Home</VisuallyHidden>
+              <BrandLogo />
+            </NavLink>
+            <nav>
+              <FlexList gap={4}>
+                {navItems &&
+                  navItems.map((navItem) => (
+                    <li key={navItem.id}>
+                      {navItem.navItemType === "Group" ? (
+                        <NavItemGroup
+                          name={navItem.name}
+                          navItems={navItem.navItems}
+                        />
+                      ) : (
+                        <NavLink to={navItem.href}>{navItem.text}</NavLink>
+                      )}
+                    </li>
+                  ))}
+              </FlexList>
+            </nav>
+            <div>
+              {cta && (
+                <UniformTest
+                  name="headerButton"
+                  component={(v) => (
+                    <Button variant={v.props.variant} to={v.props.href}>
+                      {v.props.text}
+                    </Button>
+                  )}
+                  variations={testVariants}
+                />
+              )}
+            </div>
+          </Flex>
+        </Container>
+        <Container
+          className={mobileHeaderNavWrapper[isOpen ? "open" : "closed"]}
+        >
+          <Space size={2} />
+          <Flex variant="spaceBetween">
+            <span
+              className={
+                mobileNavSVGColorWrapper[isOpen ? "reversed" : "primary"]
+              }
+            >
+              <NavLink to="/">
+                <VisuallyHidden>Home</VisuallyHidden>
+                <BrandLogo />
+              </NavLink>
+            </span>
+            <Flex>
+              <Space />
+              <div>
+                {cta && (
+                  <Button
+                    to={cta.href}
+                    variant={isOpen ? "reversed" : "primary"}
+                  >
+                    {cta.text}
+                  </Button>
+                )}
+              </div>
+              <Nudge right={3}>
+                <InteractiveIcon
+                  title="Toggle menu"
+                  onClick={() => setOpen(!isOpen)}
+                  className={
+                    mobileNavSVGColorWrapper[isOpen ? "reversed" : "primary"]
+                  }
+                >
+                  {isOpen ? <X /> : <Menu />}
+                </InteractiveIcon>
+              </Nudge>
+            </Flex>
+          </Flex>
+        </Container>
+        {isOpen && (
+          <div className={mobileNavOverlay}>
+            <nav>
+              <FlexList responsive variant="stretch">
+                {navItems?.map((navItem) => (
                   <li key={navItem.id}>
                     {navItem.navItemType === "Group" ? (
                       <NavItemGroup
@@ -118,73 +222,17 @@ export default function Header() {
                         navItems={navItem.navItems}
                       />
                     ) : (
-                      <NavLink to={navItem.href}>{navItem.text}</NavLink>
+                      <NavLink to={navItem.href} className={mobileNavLink}>
+                        {navItem.text}
+                      </NavLink>
                     )}
                   </li>
                 ))}
-            </FlexList>
-          </nav>
-          <div>{cta && <Button to={cta.href}>{cta.text}</Button>}</div>
-        </Flex>
-      </Container>
-      <Container className={mobileHeaderNavWrapper[isOpen ? "open" : "closed"]}>
-        <Space size={2} />
-        <Flex variant="spaceBetween">
-          <span
-            className={
-              mobileNavSVGColorWrapper[isOpen ? "reversed" : "primary"]
-            }
-          >
-            <NavLink to="/">
-              <VisuallyHidden>Home</VisuallyHidden>
-              <BrandLogo />
-            </NavLink>
-          </span>
-          <Flex>
-            <Space />
-            <div>
-              {cta && (
-                <Button to={cta.href} variant={isOpen ? "reversed" : "primary"}>
-                  {cta.text}
-                </Button>
-              )}
-            </div>
-            <Nudge right={3}>
-              <InteractiveIcon
-                title="Toggle menu"
-                onClick={() => setOpen(!isOpen)}
-                className={
-                  mobileNavSVGColorWrapper[isOpen ? "reversed" : "primary"]
-                }
-              >
-                {isOpen ? <X /> : <Menu />}
-              </InteractiveIcon>
-            </Nudge>
-          </Flex>
-        </Flex>
-      </Container>
-      {isOpen && (
-        <div className={mobileNavOverlay}>
-          <nav>
-            <FlexList responsive variant="stretch">
-              {navItems?.map((navItem) => (
-                <li key={navItem.id}>
-                  {navItem.navItemType === "Group" ? (
-                    <NavItemGroup
-                      name={navItem.name}
-                      navItems={navItem.navItems}
-                    />
-                  ) : (
-                    <NavLink to={navItem.href} className={mobileNavLink}>
-                      {navItem.text}
-                    </NavLink>
-                  )}
-                </li>
-              ))}
-            </FlexList>
-          </nav>
-        </div>
-      )}
-    </header>
+              </FlexList>
+            </nav>
+          </div>
+        )}
+      </header>
+    </UniformContext>
   )
 }
