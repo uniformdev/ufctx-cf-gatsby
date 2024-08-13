@@ -1,7 +1,7 @@
 import * as React from "react"
 import { graphql, useStaticQuery } from "gatsby"
 import { Menu, X } from "react-feather"
-import { Test as UniformTest } from "@uniformdev/context-react"
+import { Test } from "@uniformdev/context-react"
 import { UniformContext } from "@uniformdev/context-react"
 import { createUniformContext } from "../lib/uniform/uniformContext"
 
@@ -104,25 +104,6 @@ export default function Header() {
     }
   }, [isOpen])
 
-  const testVariants = [
-    {
-      id: "primary",
-      props: {
-        href: cta.href,
-        text: cta.text,
-        variant: "primary" as styles.ButtonVariants,
-      },
-    },
-    {
-      id: "reversed",
-      props: {
-        href: cta.href,
-        text: cta.text,
-        variant: "reversed" as styles.ButtonVariants,
-      },
-    },
-  ]
-
   return (
     <UniformContext
       context={createUniformContext()}
@@ -156,14 +137,31 @@ export default function Header() {
             </nav>
             <div>
               {cta && (
-                <UniformTest
+                <Test
                   name="headerButton"
                   component={(v) => (
                     <Button variant={v.props.variant} to={v.props.href}>
                       {v.props.text}
                     </Button>
                   )}
-                  variations={testVariants}
+                  variations={[
+                    {
+                      id: "primary",
+                      props: {
+                        href: cta.href,
+                        text: cta.text,
+                        variant: "primary" as styles.ButtonVariants,
+                      },
+                    },
+                    {
+                      id: "reversed",
+                      props: {
+                        href: cta.href,
+                        text: cta.text,
+                        variant: "reversed" as styles.ButtonVariants,
+                      },
+                    },
+                  ]}
                 />
               )}
             </div>

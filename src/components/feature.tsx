@@ -11,8 +11,8 @@ import {
   Text,
   HomepageImage,
   HomepageLink,
+  ButtonList,
 } from "./ui"
-import { ABTestButtonList } from "./ab-test-button-list"
 
 export interface FeatureDataProps {
   id: string
@@ -28,26 +28,6 @@ interface FeatureProps {
 }
 
 export default function Feature(props: FeatureDataProps & FeatureProps) {
-  // Example of coded button variants for A/B testing, can be mixed with content coming from Contentful
-  const buttonVariants = [
-    {
-      identifier: "variantA",
-      distribution: 50,
-      buttonListProps: {
-        links: props.links,
-        invertColors: false,
-      },
-    },
-    {
-      identifier: "variantB",
-      distribution: 50,
-      buttonListProps: {
-        links: props.links,
-        invertColors: true,
-      },
-    },
-  ]
-
   return (
     <Section padding={4} background="muted">
       <Container>
@@ -66,7 +46,7 @@ export default function Feature(props: FeatureDataProps & FeatureProps) {
               {props.heading}
             </Subhead>
             <Text variant="lead">{props.text}</Text>
-            <ABTestButtonList variants={buttonVariants} />
+            <ButtonList links={props.links} />
           </Box>
         </Flex>
       </Container>
