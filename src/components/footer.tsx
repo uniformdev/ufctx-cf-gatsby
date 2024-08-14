@@ -1,79 +1,13 @@
 import * as React from "react"
 import { graphql, useStaticQuery } from "gatsby"
-import {
-  Twitter,
-  Twitch,
-  Instagram,
-  Facebook,
-  Youtube,
-  GitHub,
-} from "react-feather"
-import {
-  Container,
-  Flex,
-  FlexList,
-  Box,
-  Space,
-  NavLink,
-  Text,
-  IconLink,
-  VisuallyHidden,
-  HomepageLink,
-} from "./ui"
+import * as ui from "./ui"
 import BrandLogo from "./brand-logo"
-
-const socialMedia = {
-  TWITTER: {
-    url: "https://twitter.com",
-    name: "Twitter",
-    icon: <Twitter />,
-  },
-  INSTAGRAM: {
-    url: "https://instagram.com",
-    name: "Instagram",
-    icon: <Instagram />,
-  },
-  FACEBOOK: {
-    url: "https://facebook.com",
-    name: "Facebook",
-    icon: <Facebook />,
-  },
-  YOUTUBE: {
-    url: "https://youtube.com",
-    name: "YouTube",
-    icon: <Youtube />,
-  },
-  GITHUB: {
-    url: "https://github.com",
-    name: "GitHub",
-    icon: <GitHub />,
-  },
-  TWITCH: {
-    url: "https://twitch.tv",
-    name: "Twitch",
-    icon: <Twitch />,
-  },
-}
-
-const getSocialURL = ({ service, username }) => {
-  const domain = socialMedia[service]?.url
-  if (!domain) return false
-  return `${domain}/${username}`
-}
-
-const getSocialIcon = ({ service }) => {
-  return socialMedia[service]?.icon
-}
-
-const getSocialName = ({ service }) => {
-  return socialMedia[service]?.name
-}
 
 interface FooterData {
   layout: {
     footer: {
       id: string
-      links: HomepageLink[]
+      links: ui.HomepageLink[]
       meta: { id: string; href: string; text: string }[]
       copyright: string
       socialLinks: { id: string; service: string; username: string }[]
@@ -97,12 +31,7 @@ export default function Footer() {
             href
             text
           }
-          copyright
-          socialLinks {
-            id
-            service
-            username
-          }
+          copyright          
         }
       }
     }
@@ -111,56 +40,40 @@ export default function Footer() {
   const { links, meta, socialLinks, copyright } = data.layout.footer
 
   return (
-    <Box as="footer" paddingY={4}>
-      <Container>
-        <Flex variant="start" responsive>
-          <NavLink to="/">
-            <VisuallyHidden>Home</VisuallyHidden>
+    <ui.Box as="footer" paddingY={4}>
+      <ui.Container>
+        <ui.Flex variant="start" responsive>
+          <ui.NavLink to="/">
+            <ui.VisuallyHidden>Home</ui.VisuallyHidden>
             <BrandLogo />
-          </NavLink>
-          <Space />
-          <FlexList>
-            {socialLinks &&
-              socialLinks.map((link) => {
-                const url = getSocialURL(link)
-                return (
-                  url && (
-                    <li key={link.id}>
-                      <IconLink to={url}>
-                        <VisuallyHidden>{getSocialName(link)}</VisuallyHidden>
-                        {getSocialIcon(link)}
-                      </IconLink>
-                    </li>
-                  )
-                )
-              })}
-          </FlexList>
-        </Flex>
-        <Space size={5} />
-        <Flex variant="start" responsive>
-          <FlexList variant="start" responsive>
+          </ui.NavLink>
+          <ui.Space />         
+        </ui.Flex>
+        <ui.Space size={5} />
+        <ui.Flex variant="start" responsive>
+          <ui.FlexList variant="start" responsive>
             {links &&
               links.map((link) => (
                 <li key={link.id}>
-                  <NavLink to={link.href}>{link.text}</NavLink>
+                  <ui.NavLink to={link.href}>{link.text}</ui.NavLink>
                 </li>
               ))}
-          </FlexList>
-          <Space />
-          <FlexList>
+          </ui.FlexList>
+          <ui.Space />
+          <ui.FlexList>
             {meta &&
               meta.map((link) => (
                 <li key={link.id}>
-                  <NavLink to={link.href}>
-                    <Text variant="small">{link.text}</Text>
-                  </NavLink>
+                  <ui.NavLink to={link.href}>
+                    <ui.Text variant="small">{link.text}</ui.Text>
+                  </ui.NavLink>
                 </li>
               ))}
-          </FlexList>
-          <Text variant="small">{copyright}</Text>
-        </Flex>
-      </Container>
-      <Space size={3} />
-    </Box>
+          </ui.FlexList>
+          <ui.Text variant="small">{copyright}</ui.Text>
+        </ui.Flex>
+      </ui.Container>
+      <ui.Space size={3} />
+    </ui.Box>
   )
 }
